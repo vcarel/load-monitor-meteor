@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Highcharts from 'highcharts';
-
+import moment from 'moment';
 
 export default class HistoryChart extends Component {
   constructor(props) {
@@ -29,7 +29,8 @@ export default class HistoryChart extends Component {
             type: 'datetime',
             title: {
                 text: null
-            }
+            },
+            min: moment().subtract(10, 'minutes').toDate().getTime()
         },
         yAxis: {
             title: {

@@ -20,7 +20,7 @@ class App extends Component {
             </div>
         </div>
         <div className="hr-divider m-t-md m-b">
-          <h3 className="hr-divider-content hr-divider-heading">Quick stats</h3>
+          <h3 className="hr-divider-content hr-divider-heading">Now</h3>
         </div>
         {this.props.machineStats.length > 0 ? (
           <div className="row statcards">
@@ -30,7 +30,7 @@ class App extends Component {
           </div>
         ) : null}
         <div className="hr-divider m-t-md m-b">
-          <h3 className="hr-divider-content hr-divider-heading">History</h3>
+          <h3 className="hr-divider-content hr-divider-heading">Over the last 10 minutes</h3>
         </div>
         <HistoryChart machineStats={this.props.machineStats} />
       </div>
