@@ -13,7 +13,8 @@ class App extends Component {
 
   render() {
     return (
-      <div>
+      <div className="container">
+        <h1>Now</h1>
         {this.props.machineStats.length > 0 ? (
           <div>
             <div>current load, 1 min average: {this.props.machineStats[0].load_avg_1m}</div>
@@ -22,6 +23,7 @@ class App extends Component {
             <div>current load, date: {moment(this.props.machineStats[0].date).toString()}</div>
           </div>
         ) : null}
+        <h1>History</h1>
         <ul>
           {this.props.machineStats.map((stat) => (
             <li key={stat._id}>{JSON.stringify(stat)}</li>
