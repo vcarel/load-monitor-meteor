@@ -66,17 +66,20 @@ export default class HistoryChart extends Component {
 
   componentDidUpdate (prevProps) {
     // Meteor does not send all the data at once
-    // So the dataset grows quickly until it full. Then updates occur ever 10 seconds
+    // So the dataset grows quickly until it full. Then updates occur every
+    // 10 seconds
     const serie = this.chart.series[0];
     const prevStats = prevProps.machineStats;
     const stats = this.props.machineStats;
-    if (serie.data.length === 0 || (stats.length - prevStats.length) > 1) {
+    if (serie.data.length === 0 ||
+      (stats.length - prevStats.length) > 1) {
       // Still receiving vast amount of data: refreshing the whole dataset
       serie.setData(
         this.props.machineStats.map(stat => [stat.date.getTime(), stat.load_avg_1m])
       );
     } else {
-      // Dataset is full... updating points one by one
+      // Dataset is full or filling one by one... updating points one by
+      // one
       const lastTime = prevStats[prevStats.length -1].date.getTime();
       let i = this.props.machineStats.length;
       while (this.props.machineStats[--i].date.getTime() > lastTime) {
@@ -84,14 +87,9 @@ export default class HistoryChart extends Component {
         serie.addPoint(
           [stat.date.getTime(), stat.load_avg_1m],
           true,
-          stats.length === prevStats.length);
+          stats.length === prevStats.length);  // If full, the new point will eject the last one
       }
     }
-
-
-    // this.props.machineStats.forEach(stat => {
-    //   this.chart.series[0].addPoint([stat.date.getTime(), stat.load_avg_1m]);
-    // });
   }
 
   componentWillUnmount () {
