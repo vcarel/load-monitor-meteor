@@ -20,7 +20,7 @@ export default class HistoryChart extends Component {
             type: 'spline'
         },
         title: {
-            text: 'System load'
+            text: null
         },
         subtitle: {
             text: '1 min average'
@@ -28,12 +28,12 @@ export default class HistoryChart extends Component {
         xAxis: {
             type: 'datetime',
             title: {
-                text: 'Date'
+                text: null
             }
         },
         yAxis: {
             title: {
-                text: 'Load'
+                text: null
             },
             min: 0
         },
@@ -49,7 +49,9 @@ export default class HistoryChart extends Component {
                 lineWidth: 4
             }
         },
-
+        legend: {
+          enabled: false
+        },
         series: [{
             name: 'Load',
             data: [
