@@ -12,27 +12,34 @@ class App extends Component {
 
   render() {
     return (
-      <div className="container">
+      <div className="container-fluid container-fluid-spacious">
         <div className="dashhead">
           <div className="dashhead-titles">
               <h6 className="dashhead-subtitle">A sample meteor.js app with highcharts</h6>
               <h2 className="dashhead-title">System Load</h2>
             </div>
         </div>
-        <div className="hr-divider m-t-md m-b">
-          <h3 className="hr-divider-content hr-divider-heading">Quick stats</h3>
-        </div>
-        {this.props.machineStats.length > 0 ? (
-          <div className="row statcards">
-            {this.getStatCardElement(1)}
-            {this.getStatCardElement(5)}
-            {this.getStatCardElement(15)}
+        <div className="row">
+          <div className="col-md-8 col-lg-9 m-b">
+            <div className="hr-divider m-t-md m-b">
+              <h3 className="hr-divider-content hr-divider-heading">Quick stats</h3>
+            </div>
+            {this.props.machineStats.length > 0 ? (
+              <div className="row statcards">
+                {this.getStatCardElement(1)}
+                {this.getStatCardElement(5)}
+                {this.getStatCardElement(15)}
+              </div>
+            ) : null}
+            <div className="hr-divider m-t-md m-b">
+              <h3 className="hr-divider-content hr-divider-heading">Over the last 10 minutes</h3>
+            </div>
+            <HistoryChart machineStats={this.props.machineStats} />
           </div>
-        ) : null}
-        <div className="hr-divider m-t-md m-b">
-          <h3 className="hr-divider-content hr-divider-heading">Over the last 10 minutes</h3>
+          <div className="col-md-4 col-lg-3 m-b">
+            {this.getEventsElement()}
+          </div>
         </div>
-        <HistoryChart machineStats={this.props.machineStats} />
       </div>
     );
   }
@@ -72,6 +79,32 @@ class App extends Component {
               ) : null }
             </h2>
           </div>
+        </div>
+      </div>
+    );
+  }
+
+  getEventsElement() {
+    return (
+      <div className="list-group">
+        <h4 className="list-group-header">
+          Events
+          <span className="badge pull-right">2</span>
+        </h4>
+        <div className="list-group-item">
+          <span className="text-muted p-r">09:47</span>
+          End of high load
+          <span className="label label-success pull-right">info</span>
+        </div>
+        <div className="list-group-item">
+          <span className="text-muted p-r">09:42</span>
+          High load (= 1.23)
+          <span className="label label-danger pull-right">alert</span>
+        </div>
+        <div className="list-group-item">
+          <span className="text-muted p-r">09:39</span>
+          Monitor started
+          <span className="label label-info pull-right">notice</span>
         </div>
       </div>
     );
