@@ -20,7 +20,7 @@ class App extends Component {
             </div>
         </div>
         <div className="hr-divider m-t-md m-b">
-          <h3 className="hr-divider-content hr-divider-heading">Now</h3>
+          <h3 className="hr-divider-content hr-divider-heading">Quick stats</h3>
         </div>
         {this.props.machineStats.length > 0 ? (
           <div className="row statcards">
@@ -49,13 +49,19 @@ class App extends Component {
       progressRate = (load - beforeLoad) / beforeLoad;
     }
 
+    const title_by_period = {
+      1: 'last minute',
+      5: 'last 5 minutes',
+      15: 'last 15 minutes'
+    };
+
     return (
       <div className="col-sm-4 m-b">
         <div className={
             'statcard ' + (load >= 1 ? 'statcard-danger' :
-            load >= 0.5 ? 'statcard-warning' : 'statcard-success')}>
+            load >= 0.8 ? 'statcard-warning' : 'statcard-success')}>
           <div className="p-a">
-            <span className="statcard-desc">{period} min average</span>
+            <span className="statcard-desc">{title_by_period[period]}</span>
             <h2 className="statcard-number">
               {load.toFixed(2)}
               {Math.round(progressRate * 100) !== 0 ? (
