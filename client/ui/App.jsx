@@ -59,7 +59,7 @@ class App extends Component {
       <div className="col-sm-4 m-b">
         <div className={
             'statcard ' + (load >= 1 ? 'statcard-danger' :
-            load >= 0.8 ? 'statcard-warning' : 'statcard-success')}>
+            load >= 0.75 ? 'statcard-warning' : 'statcard-success')}>
           <div className="p-a">
             <span className="statcard-desc">{title_by_period[period]}</span>
             <h2 className="statcard-number">
