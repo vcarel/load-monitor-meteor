@@ -16,7 +16,7 @@ class App extends Component {
         <div className="dashhead">
           <div className="dashhead-titles">
               <h6 className="dashhead-subtitle">A sample meteor.js app with highcharts</h6>
-              <h2 className="dashhead-title">System Load</h2>
+              <h2 className="dashhead-title">System load</h2>
             </div>
         </div>
         <div className="row">
@@ -88,7 +88,7 @@ class App extends Component {
     return (
       <div className="list-group">
         <h4 className="list-group-header">
-          Events
+          Recent events
           <span className="badge pull-right">2</span>
         </h4>
         <div className="list-group-item">
