@@ -36,7 +36,8 @@ export default class HistoryChart extends Component {
         yAxis: {
             title: {
                 text: null
-            }
+            },
+            min: 0
         },
         tooltip: {
             headerFormat: '<b>Load: {point.y:.2f}</b><br>',
