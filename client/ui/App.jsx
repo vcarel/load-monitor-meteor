@@ -1,8 +1,10 @@
+import moment from 'moment';
 import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
 
 import { SysStats } from '../../imports/api/sys_stats.js';
+import { max_history_secs } from '../../imports/constants.js';
 import HistoryChart from './HistoryChart.jsx';
 
 class App extends Component {
@@ -119,6 +121,10 @@ export default createContainer(() => {
   Meteor.subscribe('sys_stats');
 
   return {
-    sysStats: SysStats.find({}, {sort: {date: 1}}).fetch()
+    sysStats: SysStats.find({
+      date: {$gte: moment().subtract(max_history_secs, 'seconds').toDate()}  // so to avoid getting a flat line in case of server long outage
+    }, {
+      sort: {date: 1}
+    }).fetch()
   };
 }, App);
