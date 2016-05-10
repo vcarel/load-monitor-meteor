@@ -2,7 +2,7 @@ import Fiber from 'fibers';
 import { Meteor } from 'meteor/meteor';
 
 import { refresh_period_secs } from '../imports/constants.js';
-import { getNewStat, appendStat } from './stats_service.js';
+import { getNewStat, appendStat, checkAlarms } from './stats_service.js';
 
 Meteor.startup(() => {
   // Update system stats every refresh_interval_millis
@@ -10,6 +10,7 @@ Meteor.startup(() => {
     Fiber(() => {
       const stat = getNewStat();
       appendStat(stat);
+      checkAlarms(stat);
     }).run();
   }, refresh_period_secs * 1000);
 });
