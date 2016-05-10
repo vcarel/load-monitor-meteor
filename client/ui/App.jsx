@@ -119,6 +119,6 @@ export default createContainer(() => {
   Meteor.subscribe('sys_stats');
 
   return {
-    sysStats: SysStats.find({}, {sort: { date: 1 } }).fetch()
+    sysStats: SysStats.find({}, {sort: {date: 1}}).fetch()
   };
 }, App);
