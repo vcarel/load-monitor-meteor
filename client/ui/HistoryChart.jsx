@@ -8,8 +8,8 @@ export default class HistoryChart extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    const stats = this.props.machineStats;
-    const nextStats = nextProps.machineStats;
+    const stats = this.props.sysStats;
+    const nextStats = nextProps.sysStats;
     return nextStats.length !== stats.length ||
       nextStats[nextStats.length - 1].date !== stats[stats.length - 1].date;
   }
@@ -82,18 +82,18 @@ export default class HistoryChart extends Component {
     // So the dataset grows quickly until it full. Then updates occur every
     // 10 seconds
     const serie = this.chart.series[0];
-    const prevStats = prevProps.machineStats;
-    const stats = this.props.machineStats;
+    const prevStats = prevProps.sysStats;
+    const stats = this.props.sysStats;
     if (serie.data.length === 0 || (stats.length - prevStats.length) > 1) {
       // Still receiving vast amount of data: refreshing the whole dataset
-      serie.setData( this.props.machineStats.map(stat => [stat.date.getTime(), stat.load_avg_1m])
+      serie.setData( this.props.sysStats.map(stat => [stat.date.getTime(), stat.load_avg_1m])
       );
     } else {
       // Data completly received... updating points one by one
       const lastTime = prevStats[prevStats.length -1].date.getTime();
-      let i = this.props.machineStats.length;
-      while (this.props.machineStats[--i].date.getTime() > lastTime) {
-        const stat = this.props.machineStats[i];
+      let i = this.props.sysStats.length;
+      while (this.props.sysStats[--i].date.getTime() > lastTime) {
+        const stat = this.props.sysStats[i];
         serie.addPoint(
           [stat.date.getTime(), stat.load_avg_1m],
           false,  // Do not redraw yet (otherwise updating range would break animation)
@@ -118,5 +118,5 @@ export default class HistoryChart extends Component {
 }
 
 HistoryChart.propTypes = {
-  machineStats: PropTypes.array.isRequired
+  sysStats: PropTypes.array.isRequired
 };

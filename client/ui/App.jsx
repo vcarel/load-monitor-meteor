@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
 
-import { MachineStats } from '../../imports/api/machine_stats.js';
+import { SysStats } from '../../imports/api/sys_stats.js';
 import HistoryChart from './HistoryChart.jsx';
 
 class App extends Component {
@@ -24,7 +24,7 @@ class App extends Component {
             <div className="hr-divider m-t-md m-b">
               <h3 className="hr-divider-content hr-divider-heading">Quick stats</h3>
             </div>
-            {this.props.machineStats.length > 0 ? (
+            {this.props.sysStats.length > 0 ? (
               <div className="row statcards">
                 {this.getStatCardElement(1)}
                 {this.getStatCardElement(5)}
@@ -34,7 +34,7 @@ class App extends Component {
             <div className="hr-divider m-t-md m-b">
               <h3 className="hr-divider-content hr-divider-heading">Over the last 10 minutes</h3>
             </div>
-            <HistoryChart machineStats={this.props.machineStats} />
+            <HistoryChart sysStats={this.props.sysStats} />
           </div>
           <div className="col-md-4 col-lg-3 m-b">
             {this.getEventsElement()}
@@ -45,13 +45,13 @@ class App extends Component {
   }
 
   getStatCardElement(period) {
-    const stat = this.props.machineStats[this.props.machineStats.length - 1];
+    const stat = this.props.sysStats[this.props.sysStats.length - 1];
     const load = stat['load_avg_' + period + 'm'];
 
     // Calculate progress rate
     let progressRate = 0;
-    if (this.props.machineStats.length > 1) {
-      const beforeStat = this.props.machineStats[this.props.machineStats.length - 2];
+    if (this.props.sysStats.length > 1) {
+      const beforeStat = this.props.sysStats[this.props.sysStats.length - 2];
       const beforeLoad = beforeStat['load_avg_' + period + 'm'];
       progressRate = (load - beforeLoad) / beforeLoad;
     }
@@ -112,13 +112,13 @@ class App extends Component {
 }
 
 App.propTypes = {
-  machineStats: PropTypes.array.isRequired
+  sysStats: PropTypes.array.isRequired
 };
 
 export default createContainer(() => {
-  Meteor.subscribe('machine_stats');
+  Meteor.subscribe('sys_stats');
 
   return {
-    machineStats: MachineStats.find({}, {sort: { date: 1 } }).fetch()
+    sysStats: SysStats.find({}, {sort: { date: 1 } }).fetch()
   };
 }, App);
