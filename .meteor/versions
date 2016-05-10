@@ -52,6 +52,7 @@ ordered-dict@1.0.7
 practicalmeteor:chai@2.1.0_1
 practicalmeteor:loglevel@1.2.0_2
 practicalmeteor:mocha@2.4.5_2
+practicalmeteor:mocha-console-runner@0.2.0
 practicalmeteor:mocha-core@0.1.4
 practicalmeteor:sinon@1.14.1_2
 promise@0.6.7
@@ -75,3 +76,4 @@ underscore@1.0.8
 url@1.0.9
 webapp@1.2.8
 webapp-hashing@1.0.9
+xolvio:cleaner@0.3.0

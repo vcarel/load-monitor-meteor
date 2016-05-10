@@ -1,30 +1,12 @@
 import Fiber from 'fibers';
 import { Meteor } from 'meteor/meteor';
-import moment from 'moment';
-import os from 'os';
 
-import { SysStats } from '../imports/api/sys_stats.js';
-
-const refresh_interval_millis = 10 * 1000;  // 10 seconds
-const max_history_secs = 10 * 60;           // 10 minutes
+import { refresh_period_secs } from '../imports/constants.js';
+import { pushNewStats } from './sys_stats_service.js';
 
 Meteor.startup(() => {
   // Update system stats every refresh_interval_millis
-  fiberAppendMachineStat.run();
   setInterval(() => {
-    fiberAppendMachineStat.run();
-  }, refresh_interval_millis);
-});
-
-const fiberAppendMachineStat = Fiber(() => {
-  const loadAvgs = os.loadavg();
-  SysStats.insert({
-    load_avg_1m: loadAvgs[0],
-    load_avg_5m: loadAvgs[1],
-    load_avg_15m: loadAvgs[2],
-    date: new Date()
-  });
-  SysStats.remove({
-    date: {$lte: moment().subtract(max_history_secs, 'seconds').toDate()}
-  });
+    Fiber(() => pushNewStats()).run();
+  }, refresh_period_secs * 1000);
 });
