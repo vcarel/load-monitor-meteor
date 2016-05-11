@@ -5,11 +5,11 @@ import { sinon } from 'meteor/practicalmeteor:sinon';
 import { resetDatabase } from 'meteor/xolvio:cleaner';
 
 import { max_history_secs } from '../../imports/constants.js';
-import { Alarms } from '../../imports/api/alarms.js';
+import { Events } from '../../imports/api/events.js';
 import { SysStats } from '../../imports/api/sys_stats.js';
 import { getNewStat, appendStat, checkAlarms } from '../../server/stats_service.js';
 
-chai.should();
+const should = chai.should();
 
 describe('stats_service', function () {
   beforeEach(function () {
@@ -25,9 +25,19 @@ describe('stats_service', function () {
     it('should return load averages and date', function () {
       const stat = getNewStat();
       stat.load_avg_1m.should.equal(10);
+      stat.load_avg_2m.should.equal(10);  // expect same as load_avg_1m without anteriority
       stat.load_avg_5m.should.equal(20);
       stat.load_avg_15m.should.equal(30);
       stat.date.toISOString().should.equal((new Date()).toISOString());
+    });
+
+    it('should calculate load_avg_2m when anteriority', function () {
+      SysStats.insert({
+        load_avg_1m: 100,
+        date: moment().subtract(1, 'm').toDate()
+      });
+
+      getNewStat().load_avg_2m.should.equal(55);
     });
 
     afterEach(function() {
@@ -47,11 +57,11 @@ describe('stats_service', function () {
     it('should trim old stats', function () {
       SysStats.insert({
         when: 'before threshold',
-        date: moment().subtract(max_history_secs + 5, 'seconds').toDate()
+        date: moment().subtract(max_history_secs + 5, 's').toDate()
       });
       SysStats.insert({
         when: 'after threshold',
-        date: moment().subtract(max_history_secs - 5, 'seconds').toDate()
+        date: moment().subtract(max_history_secs - 5, 's').toDate()
       });
 
       appendStat({when: 'now'});
@@ -64,50 +74,44 @@ describe('stats_service', function () {
   });
 
   describe('checkAlarms', function () {
-    it('should activate load_avg_1m alarm when high-load average "t0" and "t0 - 1 min"', function () {
-      SysStats.insert({
-        date: moment().subtract(1, 'minutes').toDate(),
-        load_avg_1m: 0.3
-      });
+    it('should trigger load_avg_2m alarm when high-load occuring without anteriority', function () {
+      SysStats.insert({load_avg_2m: 1, date: new Date()});
 
-      checkAlarms({
-        date: new Date(),
-        load_avg_1m: 1.7
-      });
+      checkAlarms();
 
-      Alarms
-        .findOne({name: 'load_avg_1m'}, {fields: {_id: false, active: true}})
-        .should.deep.equal({active: true});
+      Events
+        .findOne({}, {fields: {_id: false}})
+        .should.deep.equal({name: 'high_load_avg_2m_begin', trigger_value: 1});
     });
 
-    it('should deactivate load_avg_1m alarm when low-load average at "t0" and "t0 - 1 min"', function () {
-      Alarms.insert({name: 'load_avg_1m', active: true});
-      SysStats.insert({
-        date: moment().subtract(1, 'minutes').toDate(),
-        load_avg_1m: 0.2
-      });
+    it('should trigger load_avg_2m alarm when high-load occuring with anteriority', function () {
+      SysStats.insert({load_avg_2m: 0.9, date: moment().subtract(1, 's').toDate()});
+      SysStats.insert({load_avg_2m: 1, date: new Date()});
 
-      checkAlarms({
-        date: new Date(),
-        load_avg_1m: 1.7
-      });
+      checkAlarms();
 
-      Alarms
-        .findOne({name: 'load_avg_1m'}, {fields: {_id: false, active: true}})
-        .should.deep.equal({active: false});
+      Events
+        .findOne({}, {fields: {_id: false}})
+        .should.deep.equal({name: 'high_load_avg_2m_begin', trigger_value: 1});
     });
 
-    it('should activate load_avg_1m alarm when double high-load at "t0" and no data at "t0 - 1 min"', function () {
-      Alarms.insert({name: 'load_avg_1m', active: true});
+    it('should cancel load_avg_2m alarm when high-load end', function () {
+      SysStats.insert({load_avg_2m: 1, date: moment().subtract(1, 's').toDate()});
+      SysStats.insert({load_avg_2m: 0.9, date: new Date()});
 
-      checkAlarms({
-        date: new Date(),
-        load_avg_1m: 2
-      });
+      checkAlarms();
 
-      Alarms
-        .findOne({name: 'load_avg_1m'}, {fields: {_id: false, active: true}})
-        .should.deep.equal({active: true});
+      Events
+        .findOne({}, {fields: {_id: false}})
+        .should.deep.equal({name: 'high_load_avg_2m_end', trigger_value: 0.9});
+    });
+
+    it('should not cancel load_avg_2m alarm when no anteriority', function () {
+      SysStats.insert({load_avg_2m: 0.9, date: new Date()});
+
+      checkAlarms();
+
+      should.not.exist(Events.findOne({}));
     });
   });
 });

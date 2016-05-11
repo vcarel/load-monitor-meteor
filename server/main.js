@@ -8,9 +8,8 @@ Meteor.startup(() => {
   // Update system stats every refresh_interval_millis
   setInterval(() => {
     Fiber(() => {
-      const stat = getNewStat();
-      appendStat(stat);
-      checkAlarms(stat);
+      appendStat(getNewStat());
+      checkAlarms();
     }).run();
   }, refresh_period_secs * 1000);
 });
