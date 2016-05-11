@@ -4,6 +4,9 @@
   "license": "MIT",
   "author": "Vianney Carel <vianney.carel@logfuse.fr> (http://logfuse.fr)",
   "private": true,
+  "engines" : {
+    "node" : ">=4.2.0"
+  },
   "dependencies": {
     "highcharts": "4.2.5",
     "meteor-node-stubs": "0.2.0",
