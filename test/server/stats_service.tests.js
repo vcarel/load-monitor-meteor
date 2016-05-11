@@ -75,35 +75,41 @@ describe('stats_service', function () {
 
   describe('checkAlarms', function () {
     it('should trigger load_avg_2m alarm when high-load occuring without anteriority', function () {
-      SysStats.insert({load_avg_2m: 1, date: new Date()});
+      const now = new Date();
+      SysStats.insert({load_avg_2m: 1, date: now});
 
       checkAlarms();
 
-      Events
-        .findOne({}, {fields: {_id: false}})
-        .should.deep.equal({name: 'high_load_avg_2m_begin', trigger_value: 1});
+      const event = Events.findOne({}, {fields: {_id: false}});
+      event.name.should.equal('high_load_avg_2m_begin');
+      event.trigger_value.should.equal(1);
+      event.date.toISOString().should.equal(now.toISOString());
     });
 
     it('should trigger load_avg_2m alarm when high-load occuring with anteriority', function () {
+      const now = new Date();
       SysStats.insert({load_avg_2m: 0.9, date: moment().subtract(1, 's').toDate()});
-      SysStats.insert({load_avg_2m: 1, date: new Date()});
+      SysStats.insert({load_avg_2m: 1, date: now});
 
       checkAlarms();
 
-      Events
-        .findOne({}, {fields: {_id: false}})
-        .should.deep.equal({name: 'high_load_avg_2m_begin', trigger_value: 1});
+      const event = Events.findOne({}, {fields: {_id: false}});
+      event.name.should.equal('high_load_avg_2m_begin');
+      event.trigger_value.should.equal(1);
+      event.date.toISOString().should.equal(now.toISOString());
     });
 
     it('should cancel load_avg_2m alarm when high-load end', function () {
+      const now = new Date();
       SysStats.insert({load_avg_2m: 1, date: moment().subtract(1, 's').toDate()});
-      SysStats.insert({load_avg_2m: 0.9, date: new Date()});
+      SysStats.insert({load_avg_2m: 0.9, date: now});
 
       checkAlarms();
 
-      Events
-        .findOne({}, {fields: {_id: false}})
-        .should.deep.equal({name: 'high_load_avg_2m_end', trigger_value: 0.9});
+      const event = Events.findOne({}, {fields: {_id: false}});
+      event.name.should.equal('high_load_avg_2m_end');
+      event.trigger_value.should.equal(0.9);
+      event.date.toISOString().should.equal(now.toISOString());
     });
 
     it('should not cancel load_avg_2m alarm when no anteriority', function () {

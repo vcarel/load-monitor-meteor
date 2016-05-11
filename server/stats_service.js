@@ -40,8 +40,15 @@ export function appendStat(stat) {
 export function checkAlarms() {
   const [stat_now, stat_before] = SysStats.find({}, {sort: {date: -1}, limit: 2}).fetch();
   if (stat_now.load_avg_2m >= 1 && (!stat_before || stat_before.load_avg_2m < 1)) {
-    Events.insert({name: 'high_load_avg_2m_begin', trigger_value: stat_now.load_avg_2m});
+    Events.insert({
+      name: 'high_load_avg_2m_begin',
+      trigger_value: stat_now.load_avg_2m,
+      date: stat_now.date
+    });
   } else if (stat_now.load_avg_2m < 1 && stat_before && stat_before.load_avg_2m >= 1) {
-    Events.insert({name: 'high_load_avg_2m_end', trigger_value: stat_now.load_avg_2m});
+    Events.insert({
+      name: 'high_load_avg_2m_end',
+      trigger_value: stat_now.load_avg_2m,
+      date: stat_now.date});
   }
 }

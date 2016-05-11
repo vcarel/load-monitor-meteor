@@ -3,6 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
 
+import { Events } from '../../imports/api/events.js';
 import { SysStats } from '../../imports/api/sys_stats.js';
 import { max_history_secs } from '../../imports/constants.js';
 import HistoryChart from './HistoryChart.jsx';
@@ -91,40 +92,65 @@ class App extends Component {
       <div className="list-group">
         <h4 className="list-group-header">
           Recent events
-          <span className="badge pull-right">2</span>
+          {this.props.events.length > 0 ?
+            <span className="badge pull-right">{this.props.events.length}</span>
+          : null}
+
         </h4>
-        <div className="list-group-item">
-          <span className="text-muted p-r">09:47</span>
-          End of high load
-          <span className="label label-success pull-right">info</span>
-        </div>
-        <div className="list-group-item">
-          <span className="text-muted p-r">09:42</span>
-          High load (= 1.23)
-          <span className="label label-danger pull-right">alert</span>
-        </div>
-        <div className="list-group-item">
-          <span className="text-muted p-r">09:39</span>
-          Monitor started
-          <span className="label label-info pull-right">notice</span>
-        </div>
+        {this.props.events.map(this.getEventElement)}
       </div>
     );
+  }
+
+  getEventElement(event) {
+    if (event.name === 'high_load_avg_2m_begin') {
+      return (
+        <div className="list-group-item" key={event.date}>
+          <span className="text-muted p-r">
+            {moment(event.date).format('hh:mm:ss')}
+          </span>
+          High load (= {event.trigger_value.toFixed(2)})
+          <span className="label label-danger pull-right">
+            alert
+          </span>
+        </div>
+      );
+    } else if (event.name === 'high_load_avg_2m_end') {
+      return (
+        <div className="list-group-item" key={event.date}>
+          <span className="text-muted p-r">
+            {moment(event.date).format('hh:mm:ss')}
+          </span>
+          End of high-load
+          <span className="label label-success pull-right">
+            info
+          </span>
+        </div>
+      );
+    }
   }
 }
 
 App.propTypes = {
-  sysStats: PropTypes.array.isRequired
+  sysStats: PropTypes.array.isRequired,
+  events: PropTypes.array.isRequired
 };
 
 export default createContainer(() => {
   Meteor.subscribe('sys_stats');
+  Meteor.subscribe('events');
 
   return {
     sysStats: SysStats.find({
-      date: {$gte: moment().subtract(max_history_secs, 'seconds').toDate()}  // so to avoid getting a flat line in case of server long outage
-    }, {
-      sort: {date: 1}
-    }).fetch()
+        date: {$gte: moment().subtract(max_history_secs, 'seconds').toDate()}  // so to avoid getting a flat line in case of server long outage
+      }, {
+        sort: {date: 1}
+      }).fetch(),
+
+    events: Events.find({
+        date: {$gte: moment().subtract(max_history_secs, 'seconds').toDate()}  // *recent* events only
+      }, {
+        sort: {date: -1}
+      }).fetch()
   };
 }, App);
