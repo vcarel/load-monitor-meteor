@@ -19,8 +19,5 @@ ecmascript              # Enable ECMAScript2015+ syntax in app code
 react-meteor-data
 
 less
-practicalmeteor:chai
 xolvio:cleaner
-practicalmeteor:mocha-console-runner
-practicalmeteor:mocha
-practicalmeteor:sinon
+dispatch:mocha-phantomjs

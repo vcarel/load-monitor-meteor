@@ -1,7 +1,7 @@
 import moment from 'moment';
 import os from 'os';
-import { chai } from 'meteor/practicalmeteor:chai';
-import { sinon } from 'meteor/practicalmeteor:sinon';
+import chai from 'chai';
+import sinon from 'sinon';
 import { resetDatabase } from 'meteor/xolvio:cleaner';
 
 import { max_history_secs } from '../../imports/constants.js';

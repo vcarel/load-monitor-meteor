@@ -13,11 +13,14 @@
     "react-dom": "15.0.2"
   },
   "devDependencies": {
+    "chai": "^3.5.0",
     "eslint": "^2.7.0",
-    "eslint-plugin-react": "^5.1.1"
+    "eslint-plugin-react": "^5.1.1",
+    "sinon": "^1.17.4"
   },
   "scripts": {
     "start": "meteor run",
-    "test": "meteor test --driver-package=practicalmeteor:mocha"
+    "test": "meteor test --once --driver-package dispatch:mocha-phantomjs",
+    "test:watch": "TEST_WATCH=1 meteor test --driver-package dispatch:mocha-phantomjs"
   }
 }
