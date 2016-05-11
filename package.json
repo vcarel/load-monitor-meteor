@@ -1,22 +1,23 @@
 {
   "name": "load-monitor-meteor",
+  "description": "A sample meteor.js app with highcharts",
+  "license": "MIT",
+  "author": "Vianney Carel <vianney.carel@logfuse.fr> (http://logfuse.fr)",
   "private": true,
-  "scripts": {
-    "start": "meteor run"
-  },
   "dependencies": {
-    "highcharts": "^4.2.5",
-    "meteor-node-stubs": "~0.2.0",
-    "moment": "^2.13.0",
-    "react": "^15.0.2",
-    "react-addons-pure-render-mixin": "^15.0.2",
-    "react-dom": "^15.0.2"
+    "highcharts": "4.2.5",
+    "meteor-node-stubs": "0.2.0",
+    "moment": "2.13.0",
+    "react": "15.0.2",
+    "react-addons-pure-render-mixin": "15.0.2",
+    "react-dom": "15.0.2"
   },
   "devDependencies": {
     "eslint": "^2.7.0",
     "eslint-plugin-react": "^5.1.1"
   },
   "scripts": {
+    "start": "meteor run",
     "test": "meteor test --driver-package=practicalmeteor:mocha"
   }
 }
