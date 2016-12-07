@@ -24,7 +24,7 @@
   },
   "scripts": {
     "start": "meteor run",
-    "test": "meteor test --once --driver-package dispatch:mocha-phantomjs",
-    "test:watch": "TEST_WATCH=1 meteor test --driver-package dispatch:mocha-phantomjs"
+    "test": "meteor test --once --driver-package dispatch:mocha",
+    "test:watch": "TEST_WATCH=1 meteor test --driver-package dispatch:mocha"
   }
 }

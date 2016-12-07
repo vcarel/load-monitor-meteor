@@ -17,9 +17,11 @@ describe('stats_service', function () {
   });
 
   describe('getNewStats', function () {
+    let clock;
+
     beforeEach(function () {
       sinon.stub(os, 'loadavg').returns([10, 20, 30]);
-      this.clock = sinon.useFakeTimers(Date.parse('2012-12-21T00:00:00.000Z'));
+      clock = sinon.useFakeTimers(Date.parse('2012-12-21T00:00:00.000Z'));
     });
 
     it('should return load averages and date', function () {
@@ -42,7 +44,7 @@ describe('stats_service', function () {
 
     afterEach(function() {
       os.loadavg.restore();
-      this.clock.restore();
+      clock.restore();
     });
   });
 

@@ -20,5 +20,5 @@ react-meteor-data
 
 less@2.7.8
 xolvio:cleaner
-dispatch:mocha-phantomjs
 shell-server
+dispatch:mocha
