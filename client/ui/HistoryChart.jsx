@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 import Highcharts from 'highcharts'
 import moment from 'moment'
 
@@ -120,8 +120,4 @@ export default class HistoryChart extends Component {
   render() {
     return <div ref='main' />
   }
-}
-
-HistoryChart.propTypes = {
-  sysStats: PropTypes.array.isRequired
 }

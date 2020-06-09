@@ -1,5 +1,5 @@
 import moment from 'moment'
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 import { createContainer } from 'meteor/react-meteor-data'
 import { Meteor } from 'meteor/meteor'
 
@@ -120,11 +120,6 @@ class App extends Component {
       )
     }
   }
-}
-
-App.propTypes = {
-  sysStats: PropTypes.array.isRequired,
-  events: PropTypes.array.isRequired
 }
 
 export default createContainer(() => {

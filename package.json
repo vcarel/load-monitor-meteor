@@ -14,13 +14,14 @@
     "test:watch": "TEST_WATCH=1 meteor test --driver-package dispatch:mocha"
   },
   "dependencies": {
-    "babel-runtime": "^6.18.0",
+    "@babel/runtime": "^7.10.2",
     "highcharts": "4.2.5",
-    "meteor-node-stubs": "0.2.0",
-    "moment": "2.13.0",
-    "react": "15.0.2",
-    "react-addons-pure-render-mixin": "15.0.2",
-    "react-dom": "15.0.2"
+    "jquery": "^3.5.1",
+    "meteor-node-stubs": "1.0.0",
+    "moment": "2.26.0",
+    "react": "16.13.1",
+    "react-addons-pure-render-mixin": "15.6.2",
+    "react-dom": "16.13.1"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
