@@ -30,7 +30,7 @@ const StartCard = ({ period, sysStats }) => {
           <span className='statcard-desc'>{title_by_period[period]}</span>
           <h2 className='statcard-number'>
             {load.toFixed(2)}
-            {Math.round(progressRate * 100) !== 0 ? (
+            {Math.round(progressRate * 100) !== 0 && (
               <small
                 className={
                   'delta-indicator ' + (progressRate > 0 ? 'delta-positive' : 'delta-negative')
@@ -38,7 +38,7 @@ const StartCard = ({ period, sysStats }) => {
               >
                 {(progressRate * 100).toFixed(0)}%
               </small>
-            ) : null}
+            )}
           </h2>
         </div>
       </div>

@@ -23,13 +23,13 @@ const App = ({ events, sysStats }) => (
         <div className='hr-divider m-t-md m-b'>
           <h3 className='hr-divider-content hr-divider-heading'>Quick stats</h3>
         </div>
-        {sysStats.length > 0 ? (
+        {sysStats.length > 0 && (
           <div className='row statcards'>
             <StartCard period={1} sysStats={sysStats} />
             <StartCard period={5} sysStats={sysStats} />
             <StartCard period={15} sysStats={sysStats} />
           </div>
-        ) : null}
+        )}
         <div className='hr-divider m-t-md m-b'>
           <h3 className='hr-divider-content hr-divider-heading'>Over the last 10 minutes</h3>
         </div>
@@ -39,7 +39,7 @@ const App = ({ events, sysStats }) => (
         <div className='list-group'>
           <h4 className='list-group-header'>
             Recent events
-            {events.length > 0 ? <span className='badge pull-right'>{events.length}</span> : null}
+            {events.length > 0 && <span className='badge pull-right'>{events.length}</span>}
           </h4>
           {events.map((event, i) => (
             <Event key={i} event={event} />
