@@ -2,10 +2,16 @@
   "name": "load-monitor-meteor",
   "description": "A sample meteor.js app with highcharts",
   "license": "MIT",
-  "author": "Vianney Carel <vianney.carel@logfuse.fr> (http://logfuse.fr)",
+  "author": "Vianney Carel <vianney.carel@logfuse.fr> (https://vianneycarel.me)",
   "private": true,
   "engines": {
-    "node": ">=4.2.0"
+    "node": ">=12"
+  },
+  "scripts": {
+    "lint": "eslint client imports server test",
+    "start": "meteor run",
+    "test": "meteor test --once --driver-package dispatch:mocha",
+    "test:watch": "TEST_WATCH=1 meteor test --driver-package dispatch:mocha"
   },
   "dependencies": {
     "babel-runtime": "^6.18.0",
@@ -17,14 +23,19 @@
     "react-dom": "15.0.2"
   },
   "devDependencies": {
+    "babel-eslint": "^10.1.0",
     "chai": "^3.5.0",
-    "eslint": "^2.7.0",
-    "eslint-plugin-react": "^5.1.1",
+    "eslint": "^7.2.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-config-standard-react": "^9.2.0",
+    "eslint-loader": "^4.0.2",
+    "eslint-plugin-import": "^2.21.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react": "^7.20.0",
+    "eslint-plugin-standard": "^4.0.1",
+    "prettier": "^2.0.5",
     "sinon": "^1.17.4"
-  },
-  "scripts": {
-    "start": "meteor run",
-    "test": "meteor test --once --driver-package dispatch:mocha",
-    "test:watch": "TEST_WATCH=1 meteor test --driver-package dispatch:mocha"
   }
 }

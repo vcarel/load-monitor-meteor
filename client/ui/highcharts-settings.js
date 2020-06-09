@@ -1,14 +1,24 @@
-import Highcharts from 'highcharts';
+import Highcharts from 'highcharts'
 
 Highcharts.setOptions({
-	global: {
-		useUTC: false
-	}
-});
+  global: {
+    useUTC: false
+  }
+})
 
 const theme = {
-  colors: ['#1ca8dd', '#90ee7e', '#f45b5b', '#7798BF', '#aaeeee', '#ff0066', '#eeaaee',
-    '#55BF3B', '#DF5353', '#7798BF', '#aaeeee'
+  colors: [
+    '#1ca8dd',
+    '#90ee7e',
+    '#f45b5b',
+    '#7798BF',
+    '#aaeeee',
+    '#ff0066',
+    '#eeaaee',
+    '#55BF3B',
+    '#DF5353',
+    '#7798BF',
+    '#aaeeee'
   ],
   chart: {
     backgroundColor: '#252830',
@@ -207,6 +217,6 @@ const theme = {
   textColor: '#C0C0C0',
   contrastTextColor: '#F0F0F3',
   maskColor: 'rgba(255,255,255,0.3)'
-};
+}
 
-Highcharts.setOptions(theme);
+Highcharts.setOptions(theme)
