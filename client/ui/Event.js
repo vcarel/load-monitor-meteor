@@ -1,7 +1,7 @@
 import moment from 'moment'
 import React from 'react'
 
-const Event = () => {
+const Event = ({ event }) => {
   if (event.name === 'high_load_avg_2m_begin') {
     return (
       <div className='list-group-item' key={event.date}>

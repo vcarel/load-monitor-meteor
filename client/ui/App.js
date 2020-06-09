@@ -41,8 +41,8 @@ const App = ({ events, sysStats }) => (
             Recent events
             {events.length > 0 && <span className='badge pull-right'>{events.length}</span>}
           </h4>
-          {events.map((event, i) => (
-            <Event key={i} event={event} />
+          {events.map(event => (
+            <Event key={event._id} event={event} />
           ))}
         </div>
       </div>
