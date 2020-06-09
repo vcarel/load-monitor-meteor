@@ -1,11 +1,10 @@
-import React from 'react';
-import { Meteor } from 'meteor/meteor';
-import { render } from 'react-dom';
+import React from 'react'
+import { Meteor } from 'meteor/meteor'
+import { render } from 'react-dom'
 
-import './ui/highcharts-settings';
-import App from './ui/App.jsx';
-
+import './ui/highcharts-settings'
+import App from './ui/App.jsx'
 
 Meteor.startup(() => {
-  render(<App />, document.getElementById('render-target'));
-});
+  render(<App />, document.getElementById('render-target'))
+})
