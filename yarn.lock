@@ -1214,10 +1214,10 @@ hash.js@^1.0.0, hash.js@^1.0.3:
     inherits "^2.0.3"
     minimalistic-assert "^1.0.1"
 
-highcharts@4.2.5:
-  version "4.2.5"
-  resolved "https://registry.yarnpkg.com/highcharts/-/highcharts-4.2.5.tgz#f18bbda5ca326fdff7d816c94814fe8509cec969"
-  integrity sha1-8Yu9pcoyb9/32BbJSBT+hQnOyWk=
+highcharts@6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/highcharts/-/highcharts-6.1.0.tgz#115a6ee10ad36a53d9913f1030c6d46da16c7cb5"
+  integrity sha512-YZotALyZD1xJixB8pNOKqBpmxV/NrOpMHQ3l7/CMB1hn5U7KRSviaeyv8/1MT7/rTgEFPOW85mdaFKFr2EfeAw==
 
 hmac-drbg@^1.0.0:
   version "1.0.1"
