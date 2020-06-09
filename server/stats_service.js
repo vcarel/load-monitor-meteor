@@ -22,7 +22,8 @@ export function getNewStat() {
     load_avg_2m: load_avg_2m,
     load_avg_5m: loadAvgs[1],
     load_avg_15m: loadAvgs[2],
-    date: now
+    date: now,
+    threshold: os.cpus().length
   }
 }
 
@@ -35,13 +36,18 @@ export function appendStat(stat) {
 
 export function checkAlarms() {
   const [stat_now, stat_before] = SysStats.find({}, { sort: { date: -1 }, limit: 2 }).fetch()
-  if (stat_now.load_avg_2m >= 1 && (!stat_before || stat_before.load_avg_2m < 1)) {
+  const threshold = stat_now.threshold
+  if (stat_now.load_avg_2m >= threshold && (!stat_before || stat_before.load_avg_2m < threshold)) {
     Events.insert({
       name: 'high_load_avg_2m_begin',
       trigger_value: stat_now.load_avg_2m,
       date: stat_now.date
     })
-  } else if (stat_now.load_avg_2m < 1 && stat_before && stat_before.load_avg_2m >= 1) {
+  } else if (
+    stat_now.load_avg_2m < threshold &&
+    stat_before &&
+    stat_before.load_avg_2m >= threshold
+  ) {
     Events.insert({
       name: 'high_load_avg_2m_end',
       trigger_value: stat_now.load_avg_2m,

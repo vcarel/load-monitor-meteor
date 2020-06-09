@@ -79,7 +79,7 @@ describe('stats_service', function () {
   describe('checkAlarms', function () {
     it('should trigger load_avg_2m alarm when high-load occuring without anteriority', function () {
       const now = new Date()
-      SysStats.insert({ load_avg_2m: 1, date: now })
+      SysStats.insert({ load_avg_2m: 1, date: now, threshold: 1 })
 
       checkAlarms()
 
@@ -91,8 +91,8 @@ describe('stats_service', function () {
 
     it('should trigger load_avg_2m alarm when high-load occuring with anteriority', function () {
       const now = new Date()
-      SysStats.insert({ load_avg_2m: 0.9, date: moment().subtract(1, 's').toDate() })
-      SysStats.insert({ load_avg_2m: 1, date: now })
+      SysStats.insert({ load_avg_2m: 0.9, date: moment().subtract(1, 's').toDate(), threshold: 1 })
+      SysStats.insert({ load_avg_2m: 1, date: now, threshold: 1 })
 
       checkAlarms()
 
@@ -104,8 +104,8 @@ describe('stats_service', function () {
 
     it('should cancel load_avg_2m alarm when high-load end', function () {
       const now = new Date()
-      SysStats.insert({ load_avg_2m: 1, date: moment().subtract(1, 's').toDate() })
-      SysStats.insert({ load_avg_2m: 0.9, date: now })
+      SysStats.insert({ load_avg_2m: 1, date: moment().subtract(1, 's').toDate(), threshold: 1 })
+      SysStats.insert({ load_avg_2m: 0.9, date: now, threshold: 1 })
 
       checkAlarms()
 
@@ -116,7 +116,7 @@ describe('stats_service', function () {
     })
 
     it('should not cancel load_avg_2m alarm when no anteriority', function () {
-      SysStats.insert({ load_avg_2m: 0.9, date: new Date() })
+      SysStats.insert({ load_avg_2m: 0.9, date: new Date(), threshold: 1 })
 
       checkAlarms()
 

@@ -9,7 +9,7 @@ A sample [meteor.js](https://www.meteor.com) app with [highcharts](http://www.hi
 The application is available at Heroku (on a single dyno):
 https://load-monitor-meteor.herokuapp.com/
 
-Mind that this application raises alarms at a load of 1. It's a is just a demo app... In real life, we would raise an alarm when the load goes beyond the number of CPU cores.
+Alerts are raised when load is over the number of CPUs.
 
 ## Install
 
@@ -18,8 +18,6 @@ Clone this repository, then:
 ```bash
 $ yarn install
 ```
-
-Note that Meteor install its own version of node. However, the install has been tested only against modern versions of node (>= 4.2.0).
 
 ## A few commands
 

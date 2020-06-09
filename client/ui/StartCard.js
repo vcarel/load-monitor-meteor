@@ -1,8 +1,10 @@
+/* eslint-disable indent */
 import React from 'react'
 
 const StartCard = ({ period, sysStats }) => {
   const stat = sysStats[sysStats.length - 1]
   const load = stat['load_avg_' + period + 'm']
+  const { threshold } = stat
 
   // Calculate progress rate
   let progressRate = 0
@@ -23,7 +25,11 @@ const StartCard = ({ period, sysStats }) => {
       <div
         className={
           'statcard ' +
-          (load >= 1 ? 'statcard-danger' : load >= 0.75 ? 'statcard-warning' : 'statcard-success')
+          (load >= threshold
+            ? 'statcard-danger'
+            : load >= 0.75 * threshold
+            ? 'statcard-warning'
+            : 'statcard-success')
         }
       >
         <div className='p-a'>
